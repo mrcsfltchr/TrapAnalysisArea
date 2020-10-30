@@ -486,16 +486,20 @@ class Analyser(object):
         plt.tight_layout()
         plt.show()
 
-    def extract_background_intensity(self):
-        self.bgoffset = [int(0.5*np.median(self.trapgetter.distances[np.arange(self.trapgetter.distances.shape[0]),self.trapgetter.sorted_distances[:,1]][self.trapgetter.distances[np.arange(self.trapgetter.distances.shape[0]),self.trapgetter.sorted_distances[:,1]] > 10])),0]
-        self.bgcentrecoords = self.trapgetter.trap_positions[self.trapgetter.labels == 0][0] - self.bgoffset
-        last_few_frames = self.frames.asarray(slice(self.videolength-5,self.videolength))
-        self.bgintens = np.average(last_few_frames[:,self.bgcentrecoords[0]-3:self.bgcentrecoords[0]+3,self.bgcentrecoords[1]-3:self.bgcentrecoords[1]+3],axis = (1,2))
+    ########## DEPRECATED ##########
+    #def extract_background_intensity(self):
+    #    self.bgoffset = [int(0.5*np.median(self.trapgetter.distances[np.arange(self.trapgetter.distances.shape[0]),self.trapgetter.sorted_distances[:,1]][self.trapgetter.distances[np.arange(self.trapgetter.distances.shape[0]),self.trapgetter.sorted_distances[:,1]] > 10])),0]
+    #    self.bgcentrecoords = self.trapgetter.trap_positions[self.trapgetter.labels == 0][0] - self.bgoffset
+    #    last_few_frames = self.frames.asarray(slice(self.videolength-5,self.videolength))
+    #    self.bgintens = np.average(last_few_frames[:,self.bgcentrecoords[0]-3:self.bgcentrecoords[0]+3,self.bgcentrecoords[1]-3:self.bgcentrecoords[1]+3],axis = (1,2))
 
-    def extract_background(self,maxlen,borstel=False):
+    def extract_background(self,maxlen,borstel=False,pH = False):
+        
         last_few_frames = self.frames.asarray(slice(maxlen-5,maxlen))
         if borstel:
             self.bgintens = 3750
+        elif pH:
+            # write last_few_frames = 
         else:
             self.bgintens = np.average(last_few_frames)
 
